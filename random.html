@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mitaine au Pif</title>
+    <link rel="stylesheet" href="random.css">
+</head>
+<body>
+    <div class="mitaine-container">
+        <h1 id="mitaine-name">Nom de la Mitaine</h1>
+        <img id="mitaine-picture" src="" alt="Photo de la mitaine">
+        <p id="mitaine-description">Type: <span id="mitaine-types"></span></p>
+        <p>HP: <span id="mitaine-hp"></span></p>
+        <p>CP: <span id="mitaine-cp"></span></p>
+        <p>Date de création: <span id="mitaine-created"></span></p>
+    </div>
+    <script>
+        fetch('http://68.233.121.181:3000/api/mittens/random')
+            .then(response => response.json())
+            .then(data => {
+                const mitaine = data.data;
+                document.getElementById('mitaine-name').textContent = mitaine.name;
+                document.getElementById('mitaine-picture').src = mitaine.picture;
+                document.getElementById('mitaine-types').textContent = mitaine.types.join(', ');
+                document.getElementById('mitaine-hp').textContent = mitaine.hp;
+                document.getElementById('mitaine-cp').textContent = mitaine.cp;
+                document.getElementById('mitaine-created').textContent = new Date(mitaine.created).toLocaleDateString('fr-FR');
+            })
+            .catch(error => console.error('Erreur:', error));
+    </script>
+</body>
+</html>

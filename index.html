@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Mitaines</title>
+    <link rel="stylesheet" href="https://unpkg.com/tabler-icons/css/tabler-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tabler-ui/css/tabler.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="page">
+        <div class="page-main">
+            <header class="navbar navbar-expand-md navbar-light d-print-none">
+                <div class="container-xl">
+                    <div class="header-flex">
+                        <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
+                            Application Mitaines
+                        </h1>
+                        <div>
+                            <span id="usernameDisplay" class="nav-link px-0">Bonjour, utilisateur</span>
+                            <button id="logoutBtn" class="btn btn-danger">Se déconnecter</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="page-content">
+                <div class="container-xl">
+                    <div class="row row-cards">
+                      <div class="col-sm-6 col-lg-3">
+                        <button id="createMittenBtn" class="btn btn-primary">Créer une mitaine</button>
+                        <!-- Boutons supplémentaires -->
+                        <button id="button1" class="btn btn-secondary btn-sm" onclick="window.location.href='http://68.233.121.181/routes.html'">Infos API</button>
+                        <button id="button2" class="btn btn-secondary btn-sm" onclick="window.location.href='http://68.233.121.181/random.html'">Random Mitaine Page</button>
+                        <button id="button3" class="btn btn-secondary btn-sm" onclick="window.location.href='http://68.233.121.181/game.html'">Le jeu</button>
+                      </div>
+                    
+                    </div>
+                    <div class="row row-cards" id="mittenList">
+                        <!-- Liste des mitaines ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Création -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <span class="closeCreate">&times;</span>
+            <h2>Créer une nouvelle Mitaine</h2>
+            <input type="text" id="createName" placeholder="Nom de la Mitaine">
+            <input type="number" id="createHp" placeholder="HP">
+            <input type="number" id="createCp" placeholder="CP">
+            <input type="text" id="createPicture" placeholder="URL de l'image">
+            <select id="createTypes" multiple></select>
+            <button id="saveCreate" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </div>
+
+    <!-- Modal de Modification -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+          <span class="closeEdit">&times;</span>
+          <h2>Modifier la Mitaine</h2>
+          <input type="text" id="editName" placeholder="Nom de la Mitaine">
+          <input type="number" id="editHp" placeholder="HP">
+          <input type="number" id="editCp" placeholder="CP">
+          <input type="text" id="editPicture" placeholder="URL de l'image">
+          <select id="editTypes" multiple></select>
+          <button id="saveEdit" class="btn btn-primary">Enregistrer les modifications</button>
+          <button id="deleteMittenBtn" class="btn btn-danger">Supprimer la Mitaine</button>
+      </div>
+    </div>
+
+
+    <script>
+        const validTypes = [
+            'Scintillant', 'Souple', 'Délicat', 'Naturel', 'Durable', 'Élégant', 'Écolo', 'Collant',
+            'Abrasive', 'Doux', 'Fausse fourrure', 'Mythique', 'Imperméable', 'Résistant aux coupures',
+            'Biodegradable', 'Parfumé', 'Coloré', 'Glissant', 'Sucré', 'Aérien', 'Frais', 'Ignifugé',
+            'Amusant', 'Robuste', 'Synthétique', 'Éphémère', 'Écologique', 'Léger', 'Exotique', 'Vert',
+            'Enchanté', 'Luxe', 'Transparent', 'Majestueux', 'Organique', 'Croustillant', 'Rafraîchissant',
+            'Confortable', 'Absorbant', 'Résistant', 'Gris', 'Chaud', 'Thermique', 'Anti-UV', 'Magnétique',
+            'Phosphorescent', 'Hydrophobe', 'Bioluminescent', 'Thermo-réactif', 'Anti-microbien', 'Végétalien',
+            'Recyclé', 'Interactif', 'Musical', 'Réversible', 'Convertible', 'Isolant', 'Aquatique',
+            'Tactile', 'Antistatique', 'Respirant', 'Ininflammable', 'Mémoire de forme', 'Réfléchissant', 'Polarisé',
+            'Modulaire', 'Autonettoyant', 'Anti-gravité', 'Vibrant', 'Caméléon', 'Électrique', 'Arômatique'
+        ];
+
+        const createTypesSelect = document.getElementById('createTypes');
+        validTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            createTypesSelect.appendChild(option);
+        });
+
+        // Code pour remplir le sélecteur de types dans le modal de modification
+        const editTypesSelect = document.getElementById('editTypes');
+        editTypesSelect.innerHTML = ''; // Nettoyer les options précédentes
+        validTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            editTypesSelect.appendChild(option);
+        });
+
+        // Ensuite, tu pourrais sélectionner ceux qui étaient déjà attribués à la mitaine, si tu veux les pré-sélectionner
+        response.forEach(mitten => {
+            card.addEventListener('click', () => {
+                Array.from(editTypesSelect.options).forEach(option => {
+                    option.selected = mitten.types.includes(option.value);
+                });
+
+                // Autres configurations du modal...
+            });
+        });
+
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

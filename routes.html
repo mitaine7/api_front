@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide des Routes de l'API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 40px;
+        }
+        p {
+            color: #555;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        code {
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guide des Routes de l'API</h1>
+
+        <h2>1. Récupérer une Mitaine Aléatoire (Public)</h2>
+        <p><strong>Route :</strong> /api/mittens/random</p>
+        <p><strong>Méthode :</strong> GET</p>
+        <p><strong>Description :</strong> Récupère une mitaine au hasard.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>GET /api/mittens/random</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Une paire de Mitaines a bien été trouvée au hasard.",
+  "data": { "id": 1, "name": "Mitaine1", ... }
+}</code></pre>
+
+        <h2>2. Vérifier un Code (Public)</h2>
+        <p><strong>Route :</strong> /api/verifyCode</p>
+        <p><strong>Méthode :</strong> POST</p>
+        <p><strong>Description :</strong> Vérifie un code de validation et génère un token de vérification nécessaire pour créer un utilisateur.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>{
+  "code": "code_de_vérification"
+}</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Code correct",
+  "token": "token_de_vérification"
+}</code></pre>
+
+        <h2>3. Créer un Utilisateur (Requiert Token de Vérification)</h2>
+        <p><strong>Route :</strong> /api/users</p>
+        <p><strong>Méthode :</strong> POST</p>
+        <p><strong>Description :</strong> Crée un nouvel utilisateur avec un nom d'utilisateur et un mot de passe en utilisant le token de vérification.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>{
+  "username": "nom_utilisateur",
+  "password": "mot_de_passe",
+  "token": "token_de_vérification"
+}</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Utilisateur créé avec succès",
+  "data": { "id": 1, "username": "nom_utilisateur", ... }
+}</code></pre>
+
+        <h2>4. Se Connecter (Public)</h2>
+        <p><strong>Route :</strong> /api/login</p>
+        <p><strong>Méthode :</strong> POST</p>
+        <p><strong>Description :</strong> Authentifie un utilisateur et génère un token d'accès.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>{
+  "username": "nom_utilisateur",
+  "password": "mot_de_passe"
+}</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Authentification réussie",
+  "token": "token_d'accès"
+}</code></pre>
+
+        <h2>5. Lister Toutes les Mitaines (Requiert Token d'Accès)</h2>
+        <p><strong>Route :</strong> /api/mittens</p>
+        <p><strong>Méthode :</strong> GET</p>
+        <p><strong>Description :</strong> Récupère une liste de toutes les mitaines.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>GET /api/mittens</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "La liste des mitaines a bien été récupérée.",
+  "data": [{ "id": 1, "name": "Mitaine1", ... }]
+}</code></pre>
+
+        <h2>6. Trouver une Mitaine par ID (Requiert Token d'Accès)</h2>
+        <p><strong>Route :</strong> /api/mittens/:id</p>
+        <p><strong>Méthode :</strong> GET</p>
+        <p><strong>Description :</strong> Récupère une mitaine par son identifiant unique.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>GET /api/mittens/1</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Une paire de Mitaines a bien été trouvée.",
+  "data": { "id": 1, "name": "Mitaine1", ... }
+}</code></pre>
+
+        <h2>7. Créer une Nouvelle Mitaine (Requiert Token d'Accès)</h2>
+        <p><strong>Route :</strong> /api/mittens</p>
+        <p><strong>Méthode :</strong> POST</p>
+        <p><strong>Description :</strong> Crée une nouvelle paire de mitaines avec les détails fournis.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>{
+  "name": "Nouvelle Mitaine",
+  "types": ["Type1", "Type2"],
+  "hp": 10,
+  "cp": 5
+}</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Les Mitaines en Nouvelle Mitaine ont bien été créées.",
+  "data": { "id": 1, "name": "Nouvelle Mitaine", ... }
+}</code></pre>
+
+        <h2>8. Mettre à Jour une Mitaine (Requiert Token d'Accès)</h2>
+        <p><strong>Route :</strong> /api/mittens/:id</p>
+        <p><strong>Méthode :</strong> PUT</p>
+        <p><strong>Description :</strong> Met à jour les détails d'une mitaine existante.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>{
+  "name": "Mitaine Mise à Jour",
+  "types": ["Type1", "Type2"],
+  "hp": 15,
+  "cp": 10
+}</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Les mitaines en Mitaine Mise à Jour ont bien été modifiées.",
+  "data": { "id": 1, "name": "Mitaine Mise à Jour", ... }
+}</code></pre>
+
+        <h2>9. Supprimer une Mitaine (Requiert Token d'Accès)</h2>
+        <p><strong>Route :</strong> /api/mittens/:id</p>
+        <p><strong>Méthode :</strong> DELETE</p>
+        <p><strong>Description :</strong> Supprime une mitaine par son identifiant unique.</p>
+        <p><strong>Exemple de requête :</strong></p>
+        <pre><code>DELETE /api/mittens/1</code></pre>
+        <p><strong>Réponse :</strong></p>
+        <pre><code>{
+  "message": "Les mitaines avec l'identifiant n°1 ont bien été supprimées.",
+  "data": { "id": 1, "name": "Mitaine1", ... }
+}</code></pre>
+    </div>
+</body>
+</html>

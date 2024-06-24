@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Application Mitaines</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <style>
+        /* Styles personnalisés si nécessaire */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .info-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .info-links a {
+            color: #3490dc;
+            text-decoration: underline;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="min-h-screen flex items-center justify-center">
+        <div id="loginSection" class="w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Connexion</h2>
+            <input type="text" id="username" placeholder="Nom d'utilisateur" class="w-full p-2 mb-4 border border-gray-300 rounded">
+            <input type="password" id="password" placeholder="Mot de passe" class="w-full p-2 mb-4 border border-gray-300 rounded">
+            <button id="loginBtn" class="w-full bg-blue-500 text-white p-2 rounded">Se connecter</button>
+            <button id="showRegisterFormBtn" class="w-full bg-gray-500 text-white p-2 rounded mt-2">Créer un compte</button>
+            <div id="message" class="text-red-500 mt-4"></div>
+            <div class="info-links">
+                <a href="http://68.233.121.181/routes.html" target="_blank">Infos API</a>
+                <a href="http://68.233.121.181/random.html" target="_blank">Random Mitaine Page</a>
+                <a href="http://68.233.121.181/game.html" target="_blank">Le jeu</a>
+            </div>
+        </div>
+
+        <div id="registerSection" class="w-full max-w-md hidden">
+            <h2 class="text-2xl font-bold mb-4">Créer un Compte</h2>
+            <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" class="w-full p-2 mb-4 border border-gray-300 rounded">
+            <input type="password" id="registerPassword" placeholder="Mot de passe" class="w-full p-2 mb-4 border border-gray-300 rounded">
+            <button id="registerBtn" class="w-full bg-green-500 text-white p-2 rounded">S'inscrire</button>
+            <button id="backToLoginBtn" class="w-full bg-gray-500 text-white p-2 rounded mt-2">Retour</button>
+            <div id="registerMessage" class="text-red-500 mt-4"></div>
+            <div class="info-links">
+                <a href="http://68.233.121.181/routes.html" target="_blank">Infos API</a>
+                <a href="http://68.233.121.181/random.html" target="_blank">Random Mitaine Page</a>
+                <a href="http://68.233.121.181/game.html" target="_blank">Le jeu</a>
+            </div>
+        </div>
+
+        <div id="verifyCodeModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Vérification du Code</h2>
+                <input type="text" id="verificationCode" placeholder="Code de vérification" class="w-full p-2 mb-4 border border-gray-300 rounded">
+                <button id="verifyCodeBtn" class="w-full bg-yellow-500 text-white p-2 rounded">Vérifier</button>
+                <div id="verifyMessage" class="text-red-500 mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
