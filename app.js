@@ -74,10 +74,16 @@ const fetchMittensList = () => {
   })
   .catch(error => {
     console.error('Erreur:', error);
-    if (error.response && error.response.status === 401) {  // Vérifie si la réponse a un status et si ce status est 401
-      redirectToLogin(); // Redirige vers la page de login
+    if (error.response) {
+      error.response.json().then(data => {
+        if (data.data && data.data.name === "TokenExpiredError") {
+          redirectToLogin(); // Redirige vers la page de login
+        } else {
+          displayMessage(data.message || 'Erreur lors de la récupération des mitaines. Veuillez vérifier la console.');
+        }
+      });
     } else {
-      displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.'); // Autre gestion des erreurs
+      displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.'); // Gestion des erreurs non liées à une réponse HTTP
     }
   });
   
