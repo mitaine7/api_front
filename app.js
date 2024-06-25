@@ -59,24 +59,28 @@ const fetchMittensList = () => {
   fetch("http://68.233.121.181/api/mittens", {
     headers: { Authorization: `Bearer ${token}` }
   })
-  .then(response => {
-    if (!response.ok) {
-      if (response.status === 401) {
-        redirectToLogin();  // Redirection directe si la réponse est 401
-        return;  // Arrête l'exécution de la suite du code pour cette requête
+  .then(res => {
+    if (!res.ok) {
+      if (res.status === 401) {
+        throw new Error('Token invalide ou expiré. Veuillez vous reconnecter.');
       }
-      throw new Error('Réponse non-OK du serveur');
+      throw new Error('Une erreur s\'est produite lors de la récupération des mitaines.');
     }
-    return response.json();  // Continue avec la transformation en JSON si tout va bien
+    return res.json();
   })
-  .then(data => {
-    // Traite les données ici si la réponse est OK
+  .then(response => {
+    console.log(response);
+    addMittensToList(response.data);
   })
   .catch(error => {
-    console.error('Erreur lors du traitement de la requête:', error);
-    // Gère les autres erreurs ici
+    console.error('Erreur:', error);
+    if (error.message === 'Token invalide ou expiré. Veuillez vous reconnecter.') {
+      displayMessage(error.message);
+      redirectToLogin();
+    } else {
+      displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.');
+    }
   });
-  
 };
 
 // Fonction pour créer une nouvelle mitaine basée sur les valeurs saisies dans le formulaire de création
