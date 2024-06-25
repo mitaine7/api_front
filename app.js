@@ -74,10 +74,10 @@ const fetchMittensList = () => {
   })
   .catch(error => {
     console.error('Erreur:', error);
-    if (error.status === 401) {  // Vérifie si le status de la réponse est 401
+    if (error.response && error.response.status === 401) {  // Vérifie si la réponse a un status et si ce status est 401
       redirectToLogin(); // Redirige vers la page de login
     } else {
-      displayMessage('Une erreur est survenue. Veuillez vérifier la console pour plus de détails.'); // Gère les autres types d'erreurs
+      displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.'); // Autre gestion des erreurs
     }
   });
   
