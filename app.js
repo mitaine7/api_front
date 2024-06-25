@@ -74,13 +74,13 @@ const fetchMittensList = () => {
   })
   .catch(error => {
     console.error('Erreur:', error);
-    if (error.message === 'Token invalide ou expiré. Veuillez vous reconnecter.') {
-      displayMessage(error.message);
-      redirectToLogin();
+    if (error.status === 401) {  // Vérifie si le status de la réponse est 401
+      redirectToLogin(); // Redirige vers la page de login
     } else {
-      displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.');
+      displayMessage('Une erreur est survenue. Veuillez vérifier la console pour plus de détails.'); // Gère les autres types d'erreurs
     }
   });
+  
 };
 
 // Fonction pour créer une nouvelle mitaine basée sur les valeurs saisies dans le formulaire de création
