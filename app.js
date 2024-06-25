@@ -59,32 +59,22 @@ const fetchMittensList = () => {
   fetch("http://68.233.121.181/api/mittens", {
     headers: { Authorization: `Bearer ${token}` }
   })
-  .then(res => {
-    if (!res.ok) {
-      if (res.status === 401) {
-        throw new Error('Token invalide ou expiré. Veuillez vous reconnecter.');
-      }
-      throw new Error('Une erreur s\'est produite lors de la récupération des mitaines.');
-    }
-    return res.json();
-  })
   .then(response => {
-    console.log(response);
-    addMittensToList(response.data);
+    if (!response.ok) {
+      if (response.status === 401) {
+        redirectToLogin();  // Redirection directe si la réponse est 401
+        return;  // Arrête l'exécution de la suite du code pour cette requête
+      }
+      throw new Error('Réponse non-OK du serveur');
+    }
+    return response.json();  // Continue avec la transformation en JSON si tout va bien
+  })
+  .then(data => {
+    // Traite les données ici si la réponse est OK
   })
   .catch(error => {
-    console.error('Erreur:', error);
-    if (error.response) {
-      error.response.json().then(data => {
-        if (data.data && data.data.name === "TokenExpiredError") {
-          redirectToLogin(); // Redirige vers la page de login
-        } else {
-          displayMessage(data.message || 'Erreur lors de la récupération des mitaines. Veuillez vérifier la console.');
-        }
-      });
-    } else {
-      displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.'); // Gestion des erreurs non liées à une réponse HTTP
-    }
+    console.error('Erreur lors du traitement de la requête:', error);
+    // Gère les autres erreurs ici
   });
   
 };
