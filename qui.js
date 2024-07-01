@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateHintsDisplay();
         newGameButton.style.display = 'none';
         fullscreenMessageDiv.style.display = 'none'; // S'assurer que le voile noir est caché au démarrage
+        guessInput.focus(); // Mettre le focus sur le champ de réponse
       })
       .catch(error => {
         console.error('Erreur:', error);
@@ -151,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fullscreenMessageDiv.style.display = 'none';
             fullscreenMessageDiv.style.pointerEvents = 'none';
             displayQuestion();
+            guessInput.focus(); // Mettre le focus sur le champ de réponse après chaque essai
           }, 3000);
           questionIndex = (questionIndex + 1) % questions.length;
         } else {
