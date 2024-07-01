@@ -47,11 +47,9 @@ const addMittensToList = (response) => {
 };
 
 
-// Fonction pour récupérer la liste des mitaines
 const fetchMittensList = () => {
   const token = localStorage.getItem('token');
   if (!token) {
-    displayMessage('Token non trouvé. Veuillez vous connecter.');
     redirectToLogin();
     return;
   }
@@ -62,7 +60,7 @@ const fetchMittensList = () => {
   .then(res => {
     if (!res.ok) {
       if (res.status === 401) {
-        throw new Error('Token invalide ou expiré. Veuillez vous reconnecter.');
+        throw new Error('Token invalide ou expiré');
       }
       throw new Error('Une erreur s\'est produite lors de la récupération des mitaines.');
     }
@@ -74,14 +72,19 @@ const fetchMittensList = () => {
   })
   .catch(error => {
     console.error('Erreur:', error);
-    if (error.message === 'Token invalide ou expiré. Veuillez vous reconnecter.') {
-      displayMessage(error.message);
+    if (error.message === 'Token invalide ou expiré') {
+      localStorage.removeItem('token'); // Supprime le token invalide
       redirectToLogin();
     } else {
       displayMessage('Erreur lors de la récupération des mitaines. Veuillez vérifier la console.');
     }
   });
 };
+
+// Assurez-vous que cette fonction existe dans votre code
+function redirectToLogin() {
+  window.location.href = 'login.html';
+}
 
 // Fonction pour créer une nouvelle mitaine basée sur les valeurs saisies dans le formulaire de création
 function createMitten() {
@@ -175,10 +178,7 @@ function submitMittenEdit(mittenId) {
 
 
 
-// Fonction pour rediriger vers la page de login
-function redirectToLogin() {
-  window.location.href = 'login.html';
-}
+
 
 // Charger initialement la liste des mitaines
 window.onload = () => {
