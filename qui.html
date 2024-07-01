@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeu Devine Qui ?</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { max-width: 600px; margin: 50px auto; text-align: center; }
+    .question { margin: 20px 0; }
+    .guess { margin: 20px 0; }
+    .result { margin: 20px 0; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jeu Devine Qui ?</h1>
+    <div class="question"></div>
+    <input type="text" id="guessInput" class="guess" placeholder="Votre réponse">
+    <button id="submitGuess">Deviner</button>
+    <div class="result"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
