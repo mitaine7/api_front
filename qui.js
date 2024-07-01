@@ -6,10 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingDiv = document.querySelector('.loading');
   const attemptsDiv = document.querySelector('.attempts');
   const newGameButton = document.getElementById('newGameButton');
+  const fullscreenMessageDiv = document.getElementById('fullscreenMessage');
+  const hintsDiv = document.querySelector('.hints');
   let currentPerson;
   let questionIndex = 0;
   let chances = 4;
   let attemptedNames = [];
+  let givenHints = [];
 
   const messages = [
     "Non, t'as tout faux là, moncon !",
@@ -81,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         questionIndex = 0;
         chances = 4;
         attemptedNames = [];
+        givenHints = [];
         displayQuestion();
         setupAutocomplete(data.data);
         updateAttemptsDisplay();
@@ -101,6 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const question = await questions[questionIndex](currentPerson);
     questionDiv.textContent = question;
     resultDiv.textContent = '';
+    givenHints.push(question);
+    updateHintsDisplay();
   };
 
   const fetchFoyerById = (foyerId) => {
@@ -136,9 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
         attemptedNames.push(userGuess);
         if (chances > 0) {
           const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-          resultDiv.textContent = randomMessage;
+          fullscreenMessageDiv.textContent = randomMessage;
+          fullscreenMessageDiv.style.display = 'flex';
+          setTimeout(() => {
+            fullscreenMessageDiv.style.display = 'none';
+            displayQuestion();
+          }, 3000);
           questionIndex = (questionIndex + 1) % questions.length;
-          setTimeout(displayQuestion, 3000);
         } else {
           resultDiv.textContent = `Non, ce n'est pas ça. La bonne réponse était ${currentPerson.first_name} ${currentPerson.last_name}.`;
           newGameButton.style.display = 'block';
@@ -165,6 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
     attemptsDiv.innerHTML = `
       <p>Essais restants : ${chances}</p>
       <p>Noms déjà tentés : ${attemptedNames.join(', ')}</p>
+    `;
+  };
+
+  const updateHintsDisplay = () => {
+    hintsDiv.innerHTML = `
+      <p>Indices déjà donnés :</p>
+      <ul>${givenHints.map(hint => `<li>${hint}</li>`).join('')}</ul>
     `;
   };
 

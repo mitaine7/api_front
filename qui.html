@@ -13,6 +13,8 @@
     .attempts { margin: 20px 0; font-size: 1em; }
     .loading { display: none; margin-top: 10px; }
     .new-game { margin: 20px 0; display: none; }
+    .fullscreen-message { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); color: white; display: flex; align-items: center; justify-content: center; font-size: 2em; z-index: 1000; text-align: center; }
+    .hints { margin: 20px 0; font-size: 1em; color: #555; }
     h1 { color: #333; }
     button { padding: 10px 20px; font-size: 1em; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background-color: #218838; }
@@ -26,6 +28,7 @@
   <div class="container">
     <h1>QUI C'EST ?</h1>
     <div class="question"></div>
+    <div class="hints"></div>
     <div class="attempts"></div>
     <input type="text" id="guessInput" class="guess" placeholder="Votre réponse">
     <button id="submitGuess">Deviner</button>
@@ -33,6 +36,8 @@
     <div class="loading">Vérification en cours...</div>
     <button id="newGameButton" class="new-game">Nouvelle Partie</button>
   </div>
+
+  <div class="fullscreen-message" id="fullscreenMessage"></div>
 
   <script src="qui.js"></script>
 </body>
