@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let chances = 4;
 
   const questions = [
-    person => `Indice 1 : Cette personne est née à ${person.birth_place}. Qui est-ce ?`,
-    person => `Indice 2 : Cette personne est née le ${new Date(person.birth_date).toLocaleDateString()}. Qui est-ce ?`,
-    person => `Indice 3 : Cette personne habite à ${person.address}. Qui est-ce ?`,
+    person => `Indice 1 : Cette personne est née à ${person.birth_place}. Qui c'est ?`,
+    person => `Indice 2 : Cette personne est née le ${new Date(person.birth_date).toLocaleDateString()}. Qui c'est ?`,
+    person => `Indice 3 : Cette personne habite à ${person.address}. Qui c'est ?`,
     async person => {
       const foyerData = await fetchFoyerById(person.foyerId);
       const otherPeople = foyerData.persons.filter(p => p.id !== person.id);
       const otherPeopleNames = otherPeople.map(p => `${p.first_name} ${p.last_name}`).join(', ');
-      return `Indice 4 : Les autres personnes dans le foyer sont : ${otherPeopleNames}. Qui est-ce ?`;
+      return `Indice 4 : Les autres personnes dans le foyer sont : ${otherPeopleNames}. Qui c'est ?`;
     }
   ];
 
