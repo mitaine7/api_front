@@ -115,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       // Masquer l'indicateur de chargement
       loadingDiv.style.display = 'none';
+      // Effacer le champ de réponse
+      guessInput.value = '';
     }, 1000); // Simuler un délai pour la démonstration
   };
 
