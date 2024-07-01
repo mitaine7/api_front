@@ -11,6 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
   let chances = 4;
   let attemptedNames = [];
 
+  const messages = [
+    "Non, t'as tout faux là, moncon !",
+    "C'est pas ça du tout, reviens-y, innocent !",
+    "Ça colle pas, refais voir, mardi gras sale !",
+    "Tu t'es gouré, essaie encore, dats !",
+    "Rien à voir, retente ta chance, la peau de mes couilles !",
+    "Mauvaise pioche, t'es loin du compte, mignon !",
+    "Faut repasser, c'est pas ça, mes burnes !",
+    "Essaye encore, c'est pas bon, plein les couilles !",
+    "Pas de bol, c'est pas ça, casse pas les plottes !",
+    "Non, ça colle pas du tout, innnocent !",
+    "T'as raté, recommence, mes couilles !",
+    "Toujours pas, retente, mardi gras sale !",
+    "T'es loin, essaie encore, la peau de mes couilles !",
+    "Pas ça, encore une fois, mes burnes !",
+    "Non, t'as pas bon, recommence, innocent !",
+    "C'est toujours pas ça, repasse, moncon !",
+    "Encore raté, retente ta chance, casse pas les couilles !",
+    "T'es à côté, essaie encore, dats !",
+    "Mauvaise réponse, reviens-y, la peau de mes couilles !",
+    "Toujours pas bon, essaie encore, mardi gras sale !"
+  ];
+
   const questions = [
     person => `Indice 1 : Cette personne est née à ${person.birth_place}. Qui c'est ?`,
     person => `Indice 2 : Cette personne est née le ${new Date(person.birth_date).toLocaleDateString()}. Qui c'est ?`,
@@ -112,7 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
         chances--;
         attemptedNames.push(userGuess);
         if (chances > 0) {
-          resultDiv.textContent = `Non, ce n'est pas ça. Il vous reste ${chances} chance(s).`;
+          const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+          resultDiv.textContent = randomMessage;
           questionIndex = (questionIndex + 1) % questions.length;
           setTimeout(displayQuestion, 3000);
         } else {
