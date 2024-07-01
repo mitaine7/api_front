@@ -109,6 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   submitGuessButton.addEventListener('click', checkGuess);
+
+  // Ajouter un écouteur pour la touche "Entrée"
+  guessInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      checkGuess();
+    }
+  });
+
   fetchRandomPerson();
 });
 
