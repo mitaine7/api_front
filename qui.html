@@ -10,10 +10,13 @@
     .question { margin: 20px 0; font-size: 1.2em; }
     .guess { margin: 20px 0; padding: 10px; font-size: 1em; width: 80%; border: 1px solid #ccc; border-radius: 5px; }
     .result { margin: 20px 0; font-weight: bold; font-size: 1.2em; }
+    .attempts { margin: 20px 0; font-size: 1em; }
+    .loading { display: none; margin-top: 10px; }
+    .new-game { margin: 20px 0; display: none; }
     h1 { color: #333; }
     button { padding: 10px 20px; font-size: 1em; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background-color: #218838; }
-    .loading { display: none; margin-top: 10px; }
+    .ui-autocomplete { max-height: 200px; overflow-y: auto; overflow-x: hidden; }
   </style>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,10 +26,12 @@
   <div class="container">
     <h1>QUI C'EST ?</h1>
     <div class="question"></div>
+    <div class="attempts"></div>
     <input type="text" id="guessInput" class="guess" placeholder="Votre réponse">
     <button id="submitGuess">Deviner</button>
     <div class="result"></div>
     <div class="loading">Vérification en cours...</div>
+    <button id="newGameButton" class="new-game">Nouvelle Partie</button>
   </div>
 
   <script src="qui.js"></script>

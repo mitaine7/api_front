@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitGuessButton = document.getElementById('submitGuess');
   const resultDiv = document.querySelector('.result');
   const loadingDiv = document.querySelector('.loading');
+  const attemptsDiv = document.querySelector('.attempts');
+  const newGameButton = document.getElementById('newGameButton');
   let currentPerson;
   let questionIndex = 0;
   let chances = 4;
+  let attemptedNames = [];
 
   const questions = [
     person => `Indice 1 : Cette personne est née à ${person.birth_place}. Qui c'est ?`,
@@ -54,8 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPerson = data.data[randomIndex];
         questionIndex = 0;
         chances = 4;
+        attemptedNames = [];
         displayQuestion();
         setupAutocomplete(data.data);
+        updateAttemptsDisplay();
+        newGameButton.style.display = 'none';
       })
       .catch(error => {
         console.error('Erreur:', error);
@@ -94,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkGuess = () => {
     const userGuess = guessInput.value.trim().toLowerCase();
     const correctAnswer = `${currentPerson.first_name.toLowerCase()} ${currentPerson.last_name.toLowerCase()}`;
-    
+
     // Afficher l'indicateur de chargement
     loadingDiv.style.display = 'block';
 
@@ -104,15 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(fetchRandomPerson, 3000);
       } else {
         chances--;
+        attemptedNames.push(userGuess);
         if (chances > 0) {
           resultDiv.textContent = `Non, ce n'est pas ça. Il vous reste ${chances} chance(s).`;
           questionIndex = (questionIndex + 1) % questions.length;
           setTimeout(displayQuestion, 3000);
         } else {
           resultDiv.textContent = `Non, ce n'est pas ça. La bonne réponse était ${currentPerson.first_name} ${currentPerson.last_name}.`;
-          setTimeout(fetchRandomPerson, 3000);
+          newGameButton.style.display = 'block';
         }
       }
+      // Mettre à jour l'affichage des essais restants et des tentatives
+      updateAttemptsDisplay();
       // Masquer l'indicateur de chargement
       loadingDiv.style.display = 'none';
       // Effacer le champ de réponse
@@ -128,7 +137,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const updateAttemptsDisplay = () => {
+    attemptsDiv.innerHTML = `
+      <p>Essais restants : ${chances}</p>
+      <p>Noms déjà tentés : ${attemptedNames.join(', ')}</p>
+    `;
+  };
+
   submitGuessButton.addEventListener('click', checkGuess);
+  newGameButton.addEventListener('click', fetchRandomPerson);
 
   // Ajouter un écouteur pour la touche "Entrée"
   guessInput.addEventListener('keydown', (event) => {
