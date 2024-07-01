@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         questionIndex = 0;
         chances = 4;
         displayQuestion();
+        setupAutocomplete(data.data);
       })
       .catch(error => {
         console.error('Erreur:', error);
@@ -106,6 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(fetchRandomPerson, 3000);
       }
     }
+  };
+
+  const setupAutocomplete = (people) => {
+    const names = people.map(person => `${person.first_name} ${person.last_name}`);
+    $(guessInput).autocomplete({
+      source: names,
+      minLength: 1
+    });
   };
 
   submitGuessButton.addEventListener('click', checkGuess);
