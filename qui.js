@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAttemptsDisplay();
         updateHintsDisplay();
         newGameButton.style.display = 'none';
+        fullscreenMessageDiv.style.display = 'none'; // S'assurer que le voile noir est caché au démarrage
       })
       .catch(error => {
         console.error('Erreur:', error);
@@ -145,8 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const randomMessage = messages[Math.floor(Math.random() * messages.length)];
           fullscreenMessageDiv.textContent = randomMessage;
           fullscreenMessageDiv.style.display = 'flex';
+          fullscreenMessageDiv.style.pointerEvents = 'auto';
           setTimeout(() => {
             fullscreenMessageDiv.style.display = 'none';
+            fullscreenMessageDiv.style.pointerEvents = 'none';
             displayQuestion();
           }, 3000);
           questionIndex = (questionIndex + 1) % questions.length;
