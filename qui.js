@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayQuestion();
         setupAutocomplete(data.data);
         updateAttemptsDisplay();
+        updateHintsDisplay();
         newGameButton.style.display = 'none';
       })
       .catch(error => {
@@ -179,9 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const updateHintsDisplay = () => {
+    const hintsToShow = givenHints.slice(0, -1); // Exclude the current hint
     hintsDiv.innerHTML = `
       <p>Indices déjà donnés :</p>
-      <ul>${givenHints.map(hint => `<li>${hint}</li>`).join('')}</ul>
+      <ul>${hintsToShow.map(hint => `<li>${hint}</li>`).join('')}</ul>
     `;
   };
 
