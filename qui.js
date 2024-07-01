@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const foyerData = await fetchFoyerById(person.foyerId);
       const otherPeople = foyerData.persons.filter(p => p.id !== person.id);
       const otherPeopleNames = otherPeople.map(p => `${p.first_name} ${p.last_name}`).join(', ');
-      return `Indice 4 : Les autres personnes dans le foyer sont : ${otherPeopleNames}. Qui c'est ?`;
+      return `Indice 4 : Autres personnes ayant la mëme Boite Postale : ${otherPeopleNames}. Qui c'est ?`;
     }
   ];
 
