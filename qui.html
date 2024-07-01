@@ -13,7 +13,7 @@
     h1 { color: #333; }
     button { padding: 10px 20px; font-size: 1em; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background-color: #218838; }
-    .ui-autocomplete { max-height: 200px; overflow-y: auto; overflow-x: hidden; }
+    .loading { display: none; margin-top: 10px; }
   </style>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,6 +26,7 @@
     <input type="text" id="guessInput" class="guess" placeholder="Votre réponse">
     <button id="submitGuess">Deviner</button>
     <div class="result"></div>
+    <div class="loading">Vérification en cours...</div>
   </div>
 
   <script src="qui.js"></script>

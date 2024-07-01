@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const guessInput = document.getElementById('guessInput');
   const submitGuessButton = document.getElementById('submitGuess');
   const resultDiv = document.querySelector('.result');
+  const loadingDiv = document.querySelector('.loading');
   let currentPerson;
   let questionIndex = 0;
   let chances = 4;
@@ -93,20 +94,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkGuess = () => {
     const userGuess = guessInput.value.trim().toLowerCase();
     const correctAnswer = `${currentPerson.first_name.toLowerCase()} ${currentPerson.last_name.toLowerCase()}`;
-    if (userGuess === correctAnswer) {
-      resultDiv.textContent = 'Bravo ! Vous avez trouvé la bonne réponse.';
-      setTimeout(fetchRandomPerson, 3000);
-    } else {
-      chances--;
-      if (chances > 0) {
-        resultDiv.textContent = `Non, ce n'est pas ça. Il vous reste ${chances} chance(s).`;
-        questionIndex = (questionIndex + 1) % questions.length;
-        setTimeout(displayQuestion, 3000);
-      } else {
-        resultDiv.textContent = `Non, ce n'est pas ça. La bonne réponse était ${currentPerson.first_name} ${currentPerson.last_name}.`;
+    
+    // Afficher l'indicateur de chargement
+    loadingDiv.style.display = 'block';
+
+    setTimeout(() => {
+      if (userGuess === correctAnswer) {
+        resultDiv.textContent = 'Bravo ! Vous avez trouvé la bonne réponse.';
         setTimeout(fetchRandomPerson, 3000);
+      } else {
+        chances--;
+        if (chances > 0) {
+          resultDiv.textContent = `Non, ce n'est pas ça. Il vous reste ${chances} chance(s).`;
+          questionIndex = (questionIndex + 1) % questions.length;
+          setTimeout(displayQuestion, 3000);
+        } else {
+          resultDiv.textContent = `Non, ce n'est pas ça. La bonne réponse était ${currentPerson.first_name} ${currentPerson.last_name}.`;
+          setTimeout(fetchRandomPerson, 3000);
+        }
       }
-    }
+      // Masquer l'indicateur de chargement
+      loadingDiv.style.display = 'none';
+    }, 1000); // Simuler un délai pour la démonstration
   };
 
   const setupAutocomplete = (people) => {
@@ -122,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Ajouter un écouteur pour la touche "Entrée"
   guessInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
+      $(guessInput).autocomplete('close'); // Ferme le menu déroulant
       checkGuess();
     }
   });
